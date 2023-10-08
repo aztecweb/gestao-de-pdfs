@@ -1,2 +1,0 @@
-2023/10/08 12:56:45 [error] 35#35: *1 directory index of "/app/" is forbidden, client: 172.18.0.1, server: _, request: "GET / HTTP/1.1", host: "localhost"
-2023/10/08 12:59:19 [error] 35#35: *1 directory index of "/app/" is forbidden, client: 172.18.0.1, server: _, request: "GET / HTTP/1.1", host: "localhost"

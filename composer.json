@@ -1,0 +1,47 @@
+{
+    "name": "aztecweb/gestao-de-pdfs",
+    "type": "project",
+    "license": "MIT",
+    "description": "Projeto destinado para testes de pessoas desenvolvedoras.",
+    "homepage": "https://aztecweb.net",
+    "authors": [
+        {
+            "name": "Eduardo Pittol",
+            "email": "pittol@aztecweb.net"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org",
+            "only": [
+                "wpackagist-plugin/*",
+                "wpackagist-theme/*"
+            ]
+        }
+    ],
+    "require": {
+        "johnpbloch/wordpress": "6.3.1",
+		"wpackagist-theme/twentytwentytwo": "1.4"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        },
+        "allow-plugins": {
+            "johnpbloch/wordpress-core-installer": true,
+            "composer/installers": true
+        }
+    },
+    "extra": {
+        "wordpress-install-dir": "public/wp",
+        "installer-paths": {
+            "public/packages/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ],
+            "public/packages/themes/{$name}/": [
+                "type:wordpress-theme"
+            ]
+        }
+    }
+}

@@ -35,6 +35,18 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_PREFIX: ${DB_PREFIX:-wp_}
+      AUTH_KEY: ${AUTH_KEY}
+      SECURE_AUTH_KEY: ${SECURE_AUTH_KEY}
+      LOGGED_IN_KEY: ${LOGGED_IN_KEY}
+      NONCE_KEY: ${NONCE_KEY}
+      AUTH_SALT: ${AUTH_SALT}
+      SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
+      LOGGED_IN_SALT: ${LOGGED_IN_SALT}
+      NONCE_SALT: ${NONCE_SALT}
+      WP_DEBUG: ${WP_DEBUG}
+      WP_HOME: ${WP_HOME}
+      WP_SITEURL: ${WP_SITEURL}
+
     volumes:
       - .:/app
     extra_hosts:
@@ -69,8 +81,15 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - dev_mysql_data:/var/lib/mysql
+      - ./docker/mariadb/initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306"
+
+  composer:
+    image: composer
+    volumes:
+      - .:/app
+      - ~/.docker_cache/composer:/tmp/cache
 
 volumes:
   dev_mysql_data:

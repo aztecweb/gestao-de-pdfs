@@ -5,9 +5,10 @@ Projeto destinado para testes de pessoas desenvolvedoras.
 ## Instalação
 
 ```
-$ mkdir -p ~/.docker_cache/wp-cli
+$ mkdir -p ~/.docker_cache/{composer,wp-cli}
 $ docker compose pull
 $ docker compose build
+$ docker compose run --rm -u $(id -u):$(id -g) composer install
 ```
 
 ## Serviço
@@ -15,6 +16,8 @@ $ docker compose build
 ```
 $ docker compose up -d server
 ```
+
+O ambiente é servido no endereço http://localhost com um usuário `admin / admin`.
 
 ## Integração com VSCode
 

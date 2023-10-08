@@ -1,0 +1,6 @@
+error_log/*
+public/packages
+public/wp
+vendor/
+
+!.gitkeep
