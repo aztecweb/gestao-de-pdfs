@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  base:
+    image: alpine
+
+  server:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+      - ./docker/nginx/templates:/etc/nginx/templates
+      - ./error_log:/error_log
+    environment:
+      PHP_VERSION: ${PHP_VERSION}
+      PUBLIC_PATH: ${PUBLIC_PATH}
+    links:
+      - fpm
+
+  php-base:
+    build:
+      context: ./docker/php
+      target: base
+      network: host
+      args:
+        APK_EXTRA_PACKAGES: ${APK_EXTRA_PACKAGES:-}
+        PHP_VERSION: ${PHP_VERSION}
+        PHP_EXTRA_EXTENSIONS: ${PHP_EXTRA_EXTENSIONS:-}
+        XDEBUG_VERSION: ${XDEBUG_VERSION:-}
+    environment:
+      PHP_XDEBUG_MODE: ${PHP_XDEBUG_MODE:-off}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PREFIX: ${DB_PREFIX:-wp_}
+    volumes:
+      - .:/app
+    extra_hosts:
+      - host.docker.internal:${HOST_IP:-172.17.0.1}
+
+  cli:
+    extends:
+      service: php-base
+    build:
+      target: cli
+    depends_on:
+      - db
+    volumes:
+      - ~/docker_cache/wp-cli:/.wp-cli/cache/
+
+  fpm:
+    extends:
+      service: php-base
+    build:
+      target: fpm
+    depends_on:
+      - db
+
+  db:
+    extends:
+      service: base
+    image: ${DB_SERVICE}:${DB_SERVICE_VERSION:-latest}
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - dev_mysql_data:/var/lib/mysql
+    ports:
+      - "3306"
+
+volumes:
+  dev_mysql_data:

@@ -1,0 +1,22 @@
+server {
+	listen 80;
+	server_name _;
+
+	root ${PUBLIC_PATH};
+	index index.php;
+
+	error_log /error_log/${PHP_VERSION}.log;
+
+	charset utf-8;
+
+	location / {
+		try_files $uri $uri/ /index.php$is_args$args;
+	}
+
+	location ~ \.php$ {
+	   fastcgi_pass   fpm:9000;
+	   fastcgi_index  index.php;
+	   fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+	   include        fastcgi_params;
+	}
+}
