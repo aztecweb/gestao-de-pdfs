@@ -1,7 +1,8 @@
 error_log/*
-tests/_output/*
-public/packages
+public/packages/themes/
+public/packages/uploads/*
 public/wp
+tests/_output/*
 vendor/
 vendor-7.4/
 !.gitkeep

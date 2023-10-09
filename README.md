@@ -5,13 +5,15 @@ Projeto destinado para testes de pessoas desenvolvedoras.
 ## Instalação
 
 ```
-$ mkdir -p ~/.docker_cache/{composer,wp-cli}
+$ mkdir -p ~/.docker_cache/{composer,wp-cli} 
 $ docker compose pull
 $ docker compose build
 $ docker compose -f docker-compose.tests.yml pull
 $ docker compose -f docker-compose.tests.yml build
 $ docker compose run --rm -u $(id -u):$(id -g) composer install
 $ docker compose run --rm -u $(id -u):$(id -g) composer-7.4 install
+$ setfacl -R -m u:$USER:rwx -m u:82:rwx public/packages/uploads 
+$ setfacl -Rd -m u:$USER:rwx -m u:82:rwx public/packages/uploads 
 ```
 
 ## Serviço
