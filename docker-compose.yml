@@ -17,7 +17,7 @@ services:
 
   server:
     extends:
-      service: php-base
+      service: server-base
     ports:
       - "80:80"
     links:
