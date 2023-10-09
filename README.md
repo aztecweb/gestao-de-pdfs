@@ -8,6 +8,8 @@ Projeto destinado para testes de pessoas desenvolvedoras.
 $ mkdir -p ~/.docker_cache/{composer,wp-cli}
 $ docker compose pull
 $ docker compose build
+$ docker compose -f docker-compose.tests.yml pull
+$ docker compose -f docker-compose.tests.yml build
 $ docker compose run --rm -u $(id -u):$(id -g) composer install
 ```
 
@@ -18,6 +20,16 @@ $ docker compose up -d server
 ```
 
 O ambiente é servido no endereço http://localhost com um usuário `admin / admin`.
+
+## Testes de aceitação
+
+Os testes de aceitação ajudam a validar se as requisições da aplicação estão funcionando conforme esperado.
+
+A construção dos testes é realizada utilizando [Codeception](https://codeception.com/) com o auxílio do [WPBrowser](https://github.com/lucatume/wp-browser). Os testes estão no diretório `tests`.
+
+```
+$ docker compose -f docker-compose.tests.yml run --rm codecept run
+```
 
 ## Integração com VSCode
 

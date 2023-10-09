@@ -42,6 +42,21 @@ FROM build-deps as mariadb-connector
 RUN set -ex && \
 	apk add --update mariadb-connector-c
 
+# Instalação extensão iconv
+FROM build-deps AS iconv
+RUN apk add --no-cache gnu-libiconv
+
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+
+# Instalação extensão PDO MySQL
+FROM build-deps AS pdo-mysql
+RUN docker-php-ext-install pdo_mysql
+
+# Instalação extensão Zip
+FROM build-deps AS zip
+RUN apk add --no-cache zip libzip-dev; \
+	docker-php-ext-install zip
+
 # Imagem para o WP-CLI
 FROM wordpress:cli-php${PHP_VERSION} as cli
 
@@ -65,5 +80,24 @@ COPY --from=xdebug /usr/local/etc/php/ /usr/local/etc/php/
 COPY --from=xdebug /usr/local/lib/php/ /usr/local/lib/php/
 COPY --from=xdebug /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 COPY docker-entrypoint.sh /usr/local/bin/
+
+WORKDIR /app
+
+FROM php:${PHP_VERSION}-alpine AS phpqa
+
+COPY --from=pdo-mysql /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY --from=pdo-mysql /usr/local/lib/php/ /usr/local/lib/php/
+
+COPY --from=xdebug /usr/local/etc/php/ /usr/local/etc/php/
+COPY --from=xdebug /usr/local/lib/php/ /usr/local/lib/php/
+
+COPY --from=zip /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY --from=zip /usr/local/lib/php/ /usr/local/lib/php/
+COPY --from=zip /usr/lib/ /usr/lib/
+
+COPY --from=iconv /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY --from=iconv /usr/lib/ /usr/lib/
+
+ENV PATH=/app/vendor/bin:$PATH
 
 WORKDIR /app

@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  testserver:
+    extends:
+      file: docker-compose.yml
+      service: server-base
+    environment:
+      WP_UPSTREAM: testfpm
+    links:
+      - testfpm
+
+  testfpm:
+    extends:
+      file: docker-compose.yml
+      service: fpm-base
+    environment:
+      DB_HOST: testdb
+      WP_HOME: http://testserver
+      WP_SITEURL: http://testserver/wp
+    depends_on:
+      - testdb
+    volumes:
+      - test_mysql_data:/var/lib/mysql
+      - ./docker/mariadb/initdb.d:/docker-entrypoint-initdb.d
+
+  testdb:
+    extends:
+      file: docker-compose.yml
+      service: db-base
+
+  codecept:
+    build:
+      context: ./docker/php
+      target: phpqa
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    depends_on:
+      - chrome
+    volumes:
+      - ./:/app
+    entrypoint: ["/app/vendor/bin/codecept"]
+
+  selenium-hub:
+    image: selenium/hub
+
+  chrome:
+    image: selenium/node-chrome:114.0
+    shm_size: '2gb'
+    volumes:
+      - /dev/shm:/dev/shm
+      - ./:/app
+    depends_on:
+      - selenium-hub
+      - testserver
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+
+volumes:
+  test_mysql_data:

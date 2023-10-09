@@ -4,10 +4,8 @@ services:
   base:
     image: alpine
 
-  server:
+  server-base:
     image: nginx:stable-alpine
-    ports:
-      - "80:80"
     volumes:
       - .:/app
       - ./docker/nginx/templates:/etc/nginx/templates
@@ -15,6 +13,13 @@ services:
     environment:
       PHP_VERSION: ${PHP_VERSION}
       PUBLIC_PATH: ${PUBLIC_PATH}
+      WP_UPSTREAM: ${WP_UPSTREAM:-fpm}
+
+  server:
+    extends:
+      service: php-base
+    ports:
+      - "80:80"
     links:
       - fpm
 
@@ -24,7 +29,6 @@ services:
       target: base
       network: host
       args:
-        APK_EXTRA_PACKAGES: ${APK_EXTRA_PACKAGES:-}
         PHP_VERSION: ${PHP_VERSION}
         PHP_EXTRA_EXTENSIONS: ${PHP_EXTRA_EXTENSIONS:-}
         XDEBUG_VERSION: ${XDEBUG_VERSION:-}
@@ -62,15 +66,19 @@ services:
     volumes:
       - ~/docker_cache/wp-cli:/.wp-cli/cache/
 
-  fpm:
+  fpm-base:
     extends:
       service: php-base
     build:
       target: fpm
+
+  fpm:
+    extends:
+      service: fpm-base
     depends_on:
       - db
 
-  db:
+  db-base:
     extends:
       service: base
     image: ${DB_SERVICE}:${DB_SERVICE_VERSION:-latest}
@@ -79,11 +87,15 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306"
+
+  db:
+    extends:
+      service: db-base
     volumes:
       - dev_mysql_data:/var/lib/mysql
       - ./docker/mariadb/initdb.d:/docker-entrypoint-initdb.d
-    ports:
-      - "3306"
 
   composer:
     image: composer

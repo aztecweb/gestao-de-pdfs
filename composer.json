@@ -22,7 +22,14 @@
     ],
     "require": {
         "johnpbloch/wordpress": "6.3.1",
-		"wpackagist-theme/twentytwentytwo": "1.4"
+        "wpackagist-theme/twentytwentytwo": "1.4"
+    },
+    "require-dev": {
+        "codeception/module-asserts": "3.0.0",
+		"codeception/module-db": "3.1.0",
+        "codeception/module-phpbrowser": "3.0.0",
+        "codeception/module-webdriver": "3.2.1",
+        "lucatume/wp-browser": "4.0.8"
     },
     "config": {
         "platform": {
