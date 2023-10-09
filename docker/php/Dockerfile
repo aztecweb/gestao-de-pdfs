@@ -101,3 +101,9 @@ COPY --from=iconv /usr/lib/ /usr/lib/
 ENV PATH=/app/vendor/bin:$PATH
 
 WORKDIR /app
+
+FROM php:${PHP_VERSION}-alpine AS phpcs
+
+ENV PATH=/app/vendor-7.4/bin:$PATH
+
+WORKDIR /app

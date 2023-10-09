@@ -3,4 +3,5 @@ tests/_output/*
 public/packages
 public/wp
 vendor/
+vendor-7.4/
 !.gitkeep

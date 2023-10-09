@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ruleset name="aztecweb">
+    <description>The PHP coding standard.</description>
+
+    <file>src/</file>
+
+    <arg name="extensions" value="php" />
+    <arg value="-colors" />
+    <arg value="ns" />
+
+    <!--
+         Use WordPress coding standard
+         https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
+         https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/
+     -->
+    <rule ref="WordPress">
+        <exclude name="Squiz.Commenting.ClassComment" />
+        <exclude name="Squiz.Commenting.FileComment" />
+        <exclude name="Squiz.Commenting.FunctionComment" />
+        <exclude name="Squiz.Commenting.VariableComment" />
+    </rule>
+
+    <!-- Set the target PHP version to 8.2 -->
+    <rule ref="PHPCompatibilityWP">
+        <properties>
+            <property name="testVersion" value="8.2" />
+        </properties>
+    </rule>
+
+    <!-- Force declare(strict_types = 1) use -->
+    <rule ref="Generic.PHP.RequireStrictTypes" />
+</ruleset>

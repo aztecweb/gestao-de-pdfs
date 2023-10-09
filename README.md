@@ -11,6 +11,7 @@ $ docker compose build
 $ docker compose -f docker-compose.tests.yml pull
 $ docker compose -f docker-compose.tests.yml build
 $ docker compose run --rm -u $(id -u):$(id -g) composer install
+$ docker compose run --rm -u $(id -u):$(id -g) composer-7.4 install
 ```
 
 ## Serviço
@@ -40,6 +41,24 @@ No projeto temos já configuradas as [extensões que recomendamos utilizar](.vsc
 ### Xdebug
 
 O projeto já está completamente integrado para rodar a [depuração com o VSCode](https://code.visualstudio.com/docs/editor/debugging) sem a necessidade de configuração extra. A depuração de código faz parte do nosso dia-a-dia e pode ser uma aliada para a resolução dos desafios propostos durante o teste.
+
+### Padrão de código
+
+Valida se o código está no padrão desejado.
+
+O código segue o [padrão de código do WordPress](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/), ser compatível com a versão 8.2 do PHP e utilizar [`strict_types`](https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict).
+
+A validação do código é feita através da ferramenta [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer).
+
+```
+$ docker compose run --rm -u $(id -u):$(id -g) phpcs
+```
+
+É possível aplicar correções automática utilizando o comando PHPCBF.
+
+```
+$ docker compose run --rm -u $(id -u):$(id -g) --entrypoint=phpcbf phpcs
+```
 
 ## Usuários que não utilizam Linux e VSCode
 
