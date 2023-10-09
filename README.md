@@ -29,7 +29,13 @@ Os testes de aceitação ajudam a validar se as requisições da aplicação est
 A construção dos testes é realizada utilizando [Codeception](https://codeception.com/) com o auxílio do [WPBrowser](https://github.com/lucatume/wp-browser). Os testes estão no diretório `tests`.
 
 ```
+$ docker compose -f docker-compose.tests.yml up -d chrome
 $ docker compose -f docker-compose.tests.yml run --rm codecept run
+```
+É possível que a execução possua um erro se o teste for rodado logo após levantar os serviços. Isso porque o banco de dados estará ainda inicializando.
+
+```
+Db: SQLSTATE[HY000] [2002] Connection refused while creating PDO connection
 ```
 
 ## Integração com VSCode
