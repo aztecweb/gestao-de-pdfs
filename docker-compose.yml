@@ -129,5 +129,10 @@ services:
       - ./:/app
     entrypoint: ["phpcs"]
 
+  phpstan:
+    extends:
+      service: phpqa
+    entrypoint: ["phpstan"]
+
 volumes:
   dev_mysql_data:

@@ -66,6 +66,16 @@ $ docker compose run --rm -u $(id -u):$(id -g) phpcs
 $ docker compose run --rm -u $(id -u):$(id -g) --entrypoint=phpcbf phpcs
 ```
 
+### Tipagem
+
+Valida se o código está utilizando tipagem em suas declarações. Isso reduz validações de tipo no meio do código, a quantidade de testes e de bugs.
+
+A validação do código é feita através da ferramenta [PHPStan](https://phpstan.org/).
+
+```
+$ docker compose run --rm -u $(id -u):$(id -g) phpstan
+```
+
 ## Usuários que não utilizam Linux e VSCode
 
 Nossa preferência é rodar nossos projetos em ambiente Linux pela melhor integração com o Docker. Principalmente em relação a performance.

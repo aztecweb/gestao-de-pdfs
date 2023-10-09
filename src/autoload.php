@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Aztec;
 
-function autoload( $class_name ) {
+function autoload( string $class_name ): void {
 	if ( false === strpos( $class_name, __NAMESPACE__ ) ) {
 		return;
 	}
