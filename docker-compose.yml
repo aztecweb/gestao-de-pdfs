@@ -10,6 +10,7 @@ services:
       - .:/app
       - ./docker/nginx/templates:/etc/nginx/templates
       - ./error_log:/error_log
+      - ./src:/app/public/packages/plugins/pdf-manager
     environment:
       PHP_VERSION: ${PHP_VERSION}
       PUBLIC_PATH: ${PUBLIC_PATH}
@@ -50,9 +51,9 @@ services:
       WP_DEBUG: ${WP_DEBUG}
       WP_HOME: ${WP_HOME}
       WP_SITEURL: ${WP_SITEURL}
-
     volumes:
       - .:/app
+      - ./src:/app/public/packages/plugins/pdf-manager
     extra_hosts:
       - host.docker.internal:${HOST_IP:-172.17.0.1}
 
@@ -132,7 +133,7 @@ services:
   phpstan:
     extends:
       service: phpqa
-    entrypoint: ["phpstan"]
+    entrypoint: ["phpstan", "--memory-limit=512M"]
 
 volumes:
   dev_mysql_data:

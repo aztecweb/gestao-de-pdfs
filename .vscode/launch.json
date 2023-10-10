@@ -7,6 +7,7 @@
             "request": "launch",
             "port": 9003,
             "pathMappings": {
+                "/app/public/packages/plugins/pdf-manager": "${workspaceRoot}/src",
                 "/app": "${workspaceRoot}"
             }
         }
