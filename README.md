@@ -1,6 +1,12 @@
 # Gestão de PDFs
 
-Projeto destinado para testes de pessoas desenvolvedoras.
+Esse repositório é para um simples plugin WordPress que gerencia o arquivos PDFs através de um tipo personalizado de post. 
+
+Ele é base para os testes de programação que fizemos em nossos processos seletivos.
+
+## Dependências
+
+O Docker é a única dependência para instalar e servir o projeto.
 
 ## Instalação
 
@@ -24,6 +30,10 @@ $ docker compose up -d server
 
 O ambiente é servido no endereço http://localhost com um usuário `admin / admin`.
 
+## Integração com VSCode
+
+No projeto temos já configuradas as [extensões que recomendamos utilizar](.vscode/extensions.json) e a [configuração de depuração do PHP](.vscode/launch.json).
+
 ## Testes de aceitação
 
 Os testes de aceitação ajudam a validar se as requisições da aplicação estão funcionando conforme esperado.
@@ -40,19 +50,11 @@ $ docker compose -f docker-compose.tests.yml run --rm codecept run
 Db: SQLSTATE[HY000] [2002] Connection refused while creating PDO connection
 ```
 
-## Integração com VSCode
+## Xdebug
 
-No projeto temos já configuradas as [extensões que recomendamos utilizar](.vscode/launch.json) e a [configuração de depuração do PHP](.vscode/launch.json).
+Os serviços PHP possuem o Xdebug instalado e configurado para rodar a [depuração com o VSCode](https://code.visualstudio.com/docs/editor/debugging) sem a necessidade de configuração extra. A depuração de código faz parte do nosso dia-a-dia e pode ser uma aliada para a resolução dos desafios propostos durante o teste.
 
-## Ferramentas de apoio
-
-### Xdebug
-
-O projeto já está completamente integrado para rodar a [depuração com o VSCode](https://code.visualstudio.com/docs/editor/debugging) sem a necessidade de configuração extra. A depuração de código faz parte do nosso dia-a-dia e pode ser uma aliada para a resolução dos desafios propostos durante o teste.
-
-### Padrão de código
-
-Valida se o código está no padrão desejado.
+## Padrão de código
 
 O código segue o [padrão de código do WordPress](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/), ser compatível com a versão 8.2 do PHP e utilizar [`strict_types`](https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict).
 
@@ -68,7 +70,7 @@ $ docker compose run --rm -u $(id -u):$(id -g) phpcs
 $ docker compose run --rm -u $(id -u):$(id -g) --entrypoint=phpcbf phpcs
 ```
 
-### Tipagem
+## Tipagem
 
 Valida se o código está utilizando tipagem em suas declarações. Isso reduz validações de tipo no meio do código, a quantidade de testes e de bugs.
 
