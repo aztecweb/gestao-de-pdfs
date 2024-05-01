@@ -43,7 +43,7 @@ services:
     image: selenium/hub
 
   chrome:
-    image: selenium/node-chrome:114.0
+    image: selenium/node-chrome
     shm_size: '2gb'
     volumes:
       - /dev/shm:/dev/shm
