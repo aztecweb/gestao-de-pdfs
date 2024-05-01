@@ -104,6 +104,12 @@ WORKDIR /app
 
 FROM php:${PHP_VERSION}-alpine AS phpcs
 
-ENV PATH=/app/vendor-7.4/bin:$PATH
+# PHP 8.0 compatiblity
+# https://github.com/PHPCompatibility/PHPCompatibility/issues/1654#issuecomment-1750247719
+RUN { \
+	echo 'error_reporting=E_ALL^E_DEPRECATED'; \
+} > /usr/local/etc/php/conf.d/error_reporting.ini
+
+ENV PATH=/app/vendor/bin:$PATH
 
 WORKDIR /app

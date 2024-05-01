@@ -5,5 +5,4 @@ public/wp
 tests/_output/*
 tests/_support/_generated/*
 vendor/
-vendor-7.4/
 !.gitkeep

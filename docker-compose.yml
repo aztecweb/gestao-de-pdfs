@@ -102,12 +102,6 @@ services:
       - .:/app
       - ~/.docker_cache/composer:/tmp/cache
 
-  composer-7.4:
-    extends:
-      service: composer
-    environment:
-      COMPOSER: /app/composer.7.4.json
-
   phpqa:
     build:
       context: ./docker/php
@@ -118,14 +112,11 @@ services:
       - ./:/app
 
   phpcs:
+    extends:
+      service: phpqa
     build:
       context: ./docker/php
       target: phpcs
-      args:
-        PHP_VERSION: 7.4
-        XDEBUG_VERSION: 3.1.6
-    volumes:
-      - ./:/app
     entrypoint: ["phpcs"]
 
   phpstan:
